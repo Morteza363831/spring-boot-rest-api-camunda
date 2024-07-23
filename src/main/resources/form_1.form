@@ -1,0 +1,57 @@
+{
+  "components": [
+    {
+      "label": "name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0bgappe",
+        "columns": null
+      },
+      "id": "Field_0lhsiyp",
+      "key": "name",
+      "validate": {
+        "minLength": 2,
+        "maxLength": 30,
+        "required": true
+      },
+      "properties": {}
+    },
+    {
+      "label": "age",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0t3j0j2",
+        "columns": null
+      },
+      "id": "Field_1boovrz",
+      "key": "age",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "job position",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1ndj4l4",
+        "columns": null
+      },
+      "id": "Field_096fzte",
+      "key": "job",
+      "validate": {
+        "required": true,
+        "maxLength": 40,
+        "minLength": 5
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_1inmt54",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.25.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}
