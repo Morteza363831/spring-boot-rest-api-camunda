@@ -1,12 +1,12 @@
 package org.camunda.bpm.getstarted.springbootrestapicamunda;
 
-
 import org.camunda.bpm.client.ExternalTaskClient;
+import org.camunda.bpm.client.spring.annotation.EnableExternalTaskClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ExternalTaskClientConfig {
+public class ClientConfig {
 
     @Bean
     public ExternalTaskClient externalTaskClient() {
