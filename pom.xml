@@ -43,20 +43,18 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.camunda.community</groupId>
             <artifactId>camunda-engine-rest-client-complete-springboot-starter</artifactId>
             <version>7.21.0</version>
         </dependency>
-
-        <!-- Required to offer a REST API via Spring Webflux (of course you could use any other framework too) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
             <version>2.7.4</version>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
