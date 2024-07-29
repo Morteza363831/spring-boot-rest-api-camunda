@@ -1,68 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0wrfmm4" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.25.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
   <bpmn:process id="serviceTask" name="process user info" isExecutable="true" camunda:historyTimeToLive="10">
-    <bpmn:startEvent id="StartEvent_1" camunda:formKey="">
+    <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_1yqzhih</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="Flow_1yqzhih" sourceRef="StartEvent_1" targetRef="userTask" />
+    <bpmn:sequenceFlow id="Flow_1yqzhih" sourceRef="StartEvent_1" targetRef="Activity_0hd16jb" />
     <bpmn:endEvent id="Event_07vi002">
       <bpmn:incoming>Flow_0q0881g</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0lw6pg4" sourceRef="service" targetRef="Activity_0g2ikw7" />
     <bpmn:userTask id="userTask" name="collect user info" camunda:formKey="embedded:deployment:form.html">
-      <bpmn:extensionElements />
-      <bpmn:incoming>Flow_1yqzhih</bpmn:incoming>
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="name">${name}</camunda:outputParameter>
+          <camunda:outputParameter name="age">${age}</camunda:outputParameter>
+          <camunda:outputParameter name="job">${job}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1p6903o</bpmn:incoming>
       <bpmn:outgoing>Flow_10ac89z</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:serviceTask id="service" name="process user info" camunda:type="external" camunda:topic="userInfoService">
       <bpmn:extensionElements />
-      <bpmn:incoming>Flow_10ac89z</bpmn:incoming>
+      <bpmn:incoming>Flow_1u7rpvt</bpmn:incoming>
       <bpmn:outgoing>Flow_0lw6pg4</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_0q0881g" sourceRef="Activity_0g2ikw7" targetRef="Event_07vi002" />
-    <bpmn:userTask id="Activity_0g2ikw7" name="display user" camunda:formKey="embedded:deployment:forms/displayUser.html">
-      <bpmn:extensionElements />
+    <bpmn:userTask id="Activity_0g2ikw7" name="display user" camunda:formKey="embedded:deployment:displayUser.html">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="userName">${userName}</camunda:inputParameter>
+          <camunda:inputParameter name="userAge">${userAge}</camunda:inputParameter>
+          <camunda:inputParameter name="userJob">${userJob}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0lw6pg4</bpmn:incoming>
       <bpmn:outgoing>Flow_0q0881g</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:sequenceFlow id="Flow_10ac89z" sourceRef="userTask" targetRef="service" />
+    <bpmn:sequenceFlow id="Flow_10ac89z" sourceRef="userTask" targetRef="Activity_0e8kcs6" />
+    <bpmn:sequenceFlow id="Flow_1u7rpvt" sourceRef="Activity_0e8kcs6" targetRef="service" />
+    <bpmn:scriptTask id="Activity_0e8kcs6" name="script task" scriptFormat="groovy">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_10ac89z</bpmn:incoming>
+      <bpmn:outgoing>Flow_1u7rpvt</bpmn:outgoing>
+      <bpmn:script>
+        def name = execution.getVariable("name")
+        def age = execution.getVariable("age")
+        def job = execution.getVariable("job")
+
+        def newName = name + " changed"
+        def newAge = age + 1
+        def newJob = job.toUpperCase()
+        execution.setVariable("newName", newName)
+        execution.setVariable("newAge", newAge)
+        execution.setVariable("newJob", newJob)
+      </bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_1p6903o" sourceRef="Activity_0hd16jb" targetRef="userTask" />
+    <bpmn:scriptTask id="Activity_0hd16jb" name="new script" scriptFormat="groovy">
+      <bpmn:incoming>Flow_1yqzhih</bpmn:incoming>
+      <bpmn:outgoing>Flow_1p6903o</bpmn:outgoing>
+      <bpmn:script>execution.setVariable("moo", "d")</bpmn:script>
+    </bpmn:scriptTask>
   </bpmn:process>
   <bpmn:error id="Error_1j0751q" name="Error_3hfcvq7" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="serviceTask">
-      <bpmndi:BPMNShape id="Event_07vi002_di" bpmnElement="Event_07vi002">
-        <dc:Bounds x="912" y="99" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_034eyso_di" bpmnElement="Activity_0g2ikw7">
-        <dc:Bounds x="710" y="77" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0iksdw5_di" bpmnElement="userTask">
-        <dc:Bounds x="260" y="77" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="152" y="99" width="36" height="36" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_07vi002_di" bpmnElement="Event_07vi002">
+        <dc:Bounds x="1212" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0iksdw5_di" bpmnElement="userTask">
+        <dc:Bounds x="450" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0rtuu5r_di" bpmnElement="service">
-        <dc:Bounds x="470" y="77" width="100" height="80" />
+        <dc:Bounds x="840" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_034eyso_di" bpmnElement="Activity_0g2ikw7">
+        <dc:Bounds x="1040" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09nfzdw_di" bpmnElement="Activity_0e8kcs6">
+        <dc:Bounds x="640" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1m888t9_di" bpmnElement="Activity_0hd16jb">
+        <dc:Bounds x="250" y="77" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1yqzhih_di" bpmnElement="Flow_1yqzhih">
         <di:waypoint x="188" y="117" />
-        <di:waypoint x="260" y="117" />
+        <di:waypoint x="250" y="117" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0lw6pg4_di" bpmnElement="Flow_0lw6pg4">
-        <di:waypoint x="570" y="117" />
-        <di:waypoint x="710" y="117" />
+        <di:waypoint x="940" y="117" />
+        <di:waypoint x="1040" y="117" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0q0881g_di" bpmnElement="Flow_0q0881g">
-        <di:waypoint x="810" y="117" />
-        <di:waypoint x="912" y="117" />
+        <di:waypoint x="1140" y="117" />
+        <di:waypoint x="1212" y="117" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_10ac89z_di" bpmnElement="Flow_10ac89z">
-        <di:waypoint x="360" y="117" />
-        <di:waypoint x="470" y="117" />
+        <di:waypoint x="550" y="117" />
+        <di:waypoint x="640" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1u7rpvt_di" bpmnElement="Flow_1u7rpvt">
+        <di:waypoint x="740" y="117" />
+        <di:waypoint x="840" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1p6903o_di" bpmnElement="Flow_1p6903o">
+        <di:waypoint x="350" y="117" />
+        <di:waypoint x="450" y="117" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
