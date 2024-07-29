@@ -1,0 +1,14 @@
+<!-- src/main/resources/templates/task-detail.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Task Detail</title>
+</head>
+<body>
+<h1 th:text="${task.name}"></h1>
+<p th:text="${task.id}"></p>
+<p th:text="${task.assignee}"></p>
+<p th:text="${task.description}"></p>
+<!-- Add additional task details here -->
+</body>
+</html>
