@@ -20,8 +20,8 @@ public class SpringBootRestApiCamundaApplication {
         ConfigurableApplicationContext context = SpringApplication.run(SpringBootRestApiCamundaApplication.class, args);
 
         File bpmnFile = new File("D:\\spring-boot-rest-api-camunda\\src\\main\\resources\\serviceTask.bpmn");
-        File form1File = new File("D:\\spring-boot-rest-api-camunda\\src\\main\\resources\\static\\forms\\form.html");
-        File form2File = new File("D:\\spring-boot-rest-api-camunda\\src\\main\\resources\\static\\forms\\displayUser.html");
+        File form1File = new File("D:\\spring-boot-rest-api-camunda\\src\\main\\resources\\templates\\form.html");
+        File form2File = new File("D:\\spring-boot-rest-api-camunda\\src\\main\\resources\\templates\\displayUser.html");
 
         FileSystemResource bpmnFileResource = new FileSystemResource(bpmnFile);
         FileSystemResource form1FileResource = new FileSystemResource(form1File);
