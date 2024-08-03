@@ -9,7 +9,7 @@
       <bpmn:incoming>Flow_0q0881g</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0lw6pg4" sourceRef="service" targetRef="Activity_0g2ikw7" />
-    <bpmn:userTask id="userTask" name="collect user info" camunda:formKey="embedded:deployment:form.html">
+    <bpmn:userTask id="userTask" name="collect user info" camunda:formKey="http://localhost:8081/api/forms/user/form">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:outputParameter name="name">${name}</camunda:outputParameter>
@@ -26,7 +26,7 @@
       <bpmn:outgoing>Flow_0lw6pg4</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_0q0881g" sourceRef="Activity_0g2ikw7" targetRef="Event_07vi002" />
-    <bpmn:userTask id="Activity_0g2ikw7" name="display user" camunda:formKey="embedded:deployment:displayUser.html">
+    <bpmn:userTask id="Activity_0g2ikw7" name="display user" camunda:formKey="http://localhost:8081/api/forms/user/display">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="userName">${userName}</camunda:inputParameter>
@@ -56,12 +56,12 @@
         execution.setVariable("newJob", newJob)
       </bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:sequenceFlow id="Flow_1p6903o" sourceRef="Activity_0hd16jb" targetRef="userTask" />
     <bpmn:scriptTask id="Activity_0hd16jb" name="new script" scriptFormat="groovy">
       <bpmn:incoming>Flow_1yqzhih</bpmn:incoming>
       <bpmn:outgoing>Flow_1p6903o</bpmn:outgoing>
       <bpmn:script>execution.setVariable("moo", "d")</bpmn:script>
     </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_1p6903o" sourceRef="Activity_0hd16jb" targetRef="userTask" />
   </bpmn:process>
   <bpmn:error id="Error_1j0751q" name="Error_3hfcvq7" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
