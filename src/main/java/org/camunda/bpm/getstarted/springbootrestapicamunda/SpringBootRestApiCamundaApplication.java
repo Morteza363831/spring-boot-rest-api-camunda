@@ -1,6 +1,6 @@
 package org.camunda.bpm.getstarted.springbootrestapicamunda;
 
-import org.camunda.bpm.client.spring.annotation.EnableExternalTaskClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -14,31 +14,26 @@ import org.springframework.web.client.RestTemplate;
 import java.io.File;
 
 @SpringBootApplication
+@Slf4j
 public class SpringBootRestApiCamundaApplication {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(SpringBootRestApiCamundaApplication.class, args);
 
-        File bpmnFile = new File("D:\\spring-boot-rest-api-camunda\\src\\main\\resources\\serviceTask.bpmn");
-        File form1File = new File("D:\\spring-boot-rest-api-camunda\\src\\main\\resources\\templates\\form.html");
-        File form2File = new File("D:\\spring-boot-rest-api-camunda\\src\\main\\resources\\templates\\displayUser.html");
 
-        FileSystemResource bpmnFileResource = new FileSystemResource(bpmnFile);
-        FileSystemResource form1FileResource = new FileSystemResource(form1File);
-        FileSystemResource form2FileResource = new FileSystemResource(form2File);
+    }
 
-        MultiValueMap<String, Object> parts = new LinkedMultiValueMap<>();
-        parts.add("deployment-name", "serviceTask");
-        parts.add("enable-duplicate-filtering", "true");
-        parts.add("deployment-source", "process application");
-        parts.add("file1", bpmnFileResource); // Main BPMN file
-        parts.add("file2", form1FileResource); // Additional forms
-        parts.add("file3", form2FileResource); // Additional forms
+    private void method() {
+        MultiValueMap<String, Object> parts = getStringObjectMultiValueMap();
+
+        /*parts.add("file2", form1FileResource); // Additional forms
+        parts.add("file3", form2FileResource); // Additional forms*/
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(parts, headers);
 
+        // deploy bpmn file on camunda before we tried to deploy a package (bpmn,forms)
         RestTemplate restTemplate = new RestTemplate();
         try {
             ResponseEntity<String> response = restTemplate.exchange(
@@ -47,9 +42,34 @@ public class SpringBootRestApiCamundaApplication {
                     request,
                     String.class
             );
-            System.out.println("Response: " + response.getBody());
+            log.info(response.getBody());
         } catch (HttpClientErrorException e) {
-            System.err.println("Error: " + e.getResponseBodyAsString());
+            log.error(e.getResponseBodyAsString());
         }
+    }
+
+    private static MultiValueMap<String, Object> getStringObjectMultiValueMap() {
+
+        FileSystemResource bpmnFileResource = getFileSystemResource();
+
+        /*FileSystemResource form1FileResource = new FileSystemResource(form1File);
+        FileSystemResource form2FileResource = new FileSystemResource(form2File);*/
+
+        MultiValueMap<String, Object> parts = new LinkedMultiValueMap<>();
+        parts.add("deployment-name", "serviceTask");
+        parts.add("enable-duplicate-filtering", "true");
+        parts.add("deployment-source", "process application");
+        parts.add("file1", bpmnFileResource); // Main BPMN file
+        return parts;
+    }
+
+    private static FileSystemResource getFileSystemResource() {
+        // static way and internal forms ! now we are using spring-boot-form-io-example as template
+        File bpmnFile = new File("D:\\spring-boot-rest-api-camunda\\src\\main\\resources\\serviceTask.bpmn");
+
+        /*File form1File = new File("D:\\spring-boot-rest-api-camunda\\src\\main\\resources\\templates\\form.html");
+        File form2File = new File("D:\\spring-boot-rest-api-camunda\\src\\main\\resources\\templates\\displayUser.html");*/
+
+        return new FileSystemResource(bpmnFile);
     }
 }
