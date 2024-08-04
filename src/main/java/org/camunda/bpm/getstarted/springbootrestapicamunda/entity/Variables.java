@@ -1,5 +1,7 @@
-package org.camunda.bpm.getstarted.springbootrestapicamunda;
+package org.camunda.bpm.getstarted.springbootrestapicamunda.entity;
 
+
+import org.camunda.bpm.getstarted.springbootrestapicamunda.validation.VariableValue;
 
 import java.util.Map;
 

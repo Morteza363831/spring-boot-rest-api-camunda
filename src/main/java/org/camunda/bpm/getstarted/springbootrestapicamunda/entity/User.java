@@ -1,4 +1,4 @@
-package org.camunda.bpm.getstarted.springbootrestapicamunda;
+package org.camunda.bpm.getstarted.springbootrestapicamunda.entity;
 
 
 public class User {

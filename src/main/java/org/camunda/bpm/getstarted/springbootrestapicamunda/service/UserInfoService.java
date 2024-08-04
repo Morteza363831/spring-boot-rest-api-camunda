@@ -1,4 +1,4 @@
-package org.camunda.bpm.getstarted.springbootrestapicamunda;
+package org.camunda.bpm.getstarted.springbootrestapicamunda.service;
 
 import org.camunda.bpm.client.spring.annotation.ExternalTaskSubscription;
 import org.camunda.bpm.client.task.ExternalTask;
